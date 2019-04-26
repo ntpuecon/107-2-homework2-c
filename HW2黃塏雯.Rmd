@@ -63,7 +63,6 @@ summary(ans11)
 在其他條件不變下，平均每增加一年教育，生小孩數會減少0.0906個
 在其他條件不變下，平均每增加一歲，生小孩數會增加0.3324個; 平均年齡平方每增加一歲，生小孩數會減少0.00263個，可以推斷年紀增加小孩數會增加，但是年紀對於生小孩數的影響會隨著年齡的增加，增加幅度會變小
 
-
 ## 1.2
 The variable frsthalf is a dummy variable equal to one if the woman was born during the first six months of the year. Assuming that frsthalf is uncorrelated with the error term from 1.1, show that frsthalf is a reasonable IV candidate for educ. (Hint: you need to do a regression.)
 
