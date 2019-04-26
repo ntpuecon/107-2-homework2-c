@@ -8,9 +8,9 @@ output:
       collapsed: true
       smooth_scroll: false
 params:
-  name: ["阿花","阿明"]
-  id: [710761001,710661002]
-  group: "team1"
+  name: ["黃塏雯","林庭宇","饒雲韶"]
+  id: [710761122,710761117,810632102]
+  group: "teamC"
   url: ""
 ---
 請依狀況更改上面的name,id及group（分別代表組員姓名，學號及組號），但請勿更改下面三行的設定。  
@@ -106,15 +106,22 @@ bicycle<-fertil2$bicycle
 ## 1.5 
 Continue from 1.4, conduct Hausman test to see if OLS is valid for the study under a 5 percent test size.
 
-
 ```{r ans15}
-
+library(stargazer)
+stargazer(ols1,tsls_1iv,type="text",
+          column.labels = c("ols", "tsls"),
+          add.lines = list(c("TSLS tests p-value", "",""),
+                           c("Q1: Sargan","NA","0.5641"),
+                           c("Q2: Weak instruments","1.4e-08","<2e-16"),
+                           c("Q3: Wu-Hausman","0.263","0.0569")
+                           ))
 ```
+比較ols以及tsls的教育係數，在ols下，在其他條件不變下，平均每增加一年教育，生小孩數會減少0.077個，有三顆星顯著，在tsls下，在其他條件不變下，平均每增加一年教育，生小孩數會減少0.1715個，但是只有2顆星顯著
 
 ## 1.6
 Can we test whether frsthalf is indeed exogenous for being an IV? why or why not?
 
-
+在這裡工具變數和解釋變數個數一樣，所以不能做排除條件檢定
 ## 1.7
 If we add one more IV catholic, can we test IV exogeneity? If yes, what is the test result under a 5 percent test size.
 
@@ -132,7 +139,8 @@ Are frsthalf and catholic weak IVs?
 
 
 ```{r ans8}
-
+ans1_8<-lm(educ~age+age_square+frsthalf+catholic,data=fertil2)
+summary(ans1_8)
 ```
 
 # 2 複迴歸與工具變數
@@ -193,6 +201,26 @@ E(Y|P)&=E(Y_{-p}+\beta*P|P)\\
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明不論使用$E(Y|P)$或$E(Y|P,rincome)$，其P之係數都不會是$\beta^*$
 
+ANS:
+\begin{equation}
+\begin{aligned}
+E(Y|P) &= E(\tilde \epsilon |P) + 2 + 3E(rincome|P) + \beta^* P \\ \\
+&= 0.5 + 2P + 2 + 3(0.5 + P) + \beta^* P \\ \\
+&= 4 + (5 + \beta^*)P
+\end{aligned}
+\end{equation}
+
+另外，
+
+\begin{equation}
+\begin{aligned}
+E(Y|P, rincome) &= E(\tilde \epsilon|P, rincome) + 2 + 3E(rincome|P, rincome) + \beta^* P \\ \\
+&= 0.5 + 2P + 2 + 3rincome + \beta^* P \\ \\
+&= 2.5 + 3rincome + (2 + \beta^*) P
+\end{aligned}
+\end{equation}
+
+
 ## 2.4 立足點情境A.3+效應情境B.1：TSLS
 
 考慮以下三個情境條件：
@@ -229,7 +257,24 @@ E(Y|P_z,rincome)&=E(\tilde{\epsilon}|P_z,rincome)+2+3E(rincome|P_z,rincome)+\bet
   
 說明使用$E(Y|P,rincome,z)$其中$P$的係
 數不會是$\beta^*$.
+ANS:
+$Y=Y_{-p,-z,-rincome} +\beta^*P+\beta_1^*rincome+\beta_2^*Z$ 
 
+$令：P= \tilde{v}+P_z=\tilde{v}+\alpha_0+\alpha_1Z$
+
+
+$則：Z=\frac{P-\tilde{v}+\alpha_0}{\alpha_1}$
+
+\begin{equation}
+\begin{aligned}
+Y&=Y_{-p,-z,-rincome} +\beta^*P+\beta_1^*rincome+\beta_2^*\frac{P-\tilde{v}+\alpha_0}{\alpha_1}\\
+&=Y_{-p,-z,-rincome}+\beta_1^*rincome+(\beta^*+\frac{\beta_2^*}{\alpha_1})P+\beta_2^*\frac{-\tilde{v}-\alpha_0}{\alpha_1}
+\end{aligned}
+\end{equation}
+所以
+$$
+E(Y|P,rincome,Z)中P的係數不為\beta^*
+$$
 # 3. 替代變數
 
 有時資料並沒有所要的變數，但有其他具有代表性的替代變數（proxies）。如所要變數為「智商」，但智商沒有一定的衡量指標，我們常使用「IQ測驗成績」來代表智商，原因是我們認為它與「智商」有高度相關，也就是說：
