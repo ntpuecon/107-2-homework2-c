@@ -356,7 +356,7 @@ y_i=(\tilde{x_i}-(\alpha_1+\alpha_2\tilde{x})\beta^*+\gamma w_i+y_{-x_i,-w_i}
 
 
 \begin{equation}
-E(y_i|\tilde{x_i},w_i)=(1-\alpha_2)\beta^* - \alpha_1 \beta^* + \gamma w_i+y_{-x_i,-w_i}
+E(y_i|\tilde{x_i},w_i)=(1-\alpha_2)\beta^* \tilde{x_i} - \alpha_1 \beta^* + \gamma w_i+y_{-x_i,-w_i}
 \end{equation}
 
 
