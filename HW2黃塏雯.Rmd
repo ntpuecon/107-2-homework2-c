@@ -80,16 +80,28 @@ Estimate the model from part 1.1 by using frsthalf as an IV for educ. Compare th
 
 
 ```{r ans13}
-
+tsls_1iv <- ivreg(
+  children~educ+age+age_square | age+age_square+frsthalf,
+  data=fertil2
+  ) 
+summary(tsls_1iv)
 ```
+加了工具變數後，教育對生小孩的影響從原本的p value=2e-16變成0.00127，工具變數讓效果變得沒那麼顯著。
 
 ## 1.4
 Add the binary variables electric, tv, and bicycle to the model and assume that these are exogenous. Estimate the equation by OLS and TSLS and compare the estimated coefficients on educ. Interpret the coefficient on tv and explain why television ownership has a negative effect on fertility.
 
 ```{r ans14}
-
+electric<-fertil2$electric
+tv<-fertil2$tv
+bicycle<-fertil2$bicycle
+ ols1<-lm(children~educ+age+age_square+electric+tv+bicycle)
+ ols1
+ summary(ols1)
 ```
-
+推論出有兩種解釋方式:
+電視愈多代表家庭所得相對較高，所得較高的家庭生育率會較低；
+擁有電視會使休閒娛樂增加，會分散在生育的時間分配。
 
 ## 1.5 
 Continue from 1.4, conduct Hausman test to see if OLS is valid for the study under a 5 percent test size.
@@ -146,6 +158,16 @@ $$Y=Y_{-p}+\beta^* P$$
   【A.1】P與立足點中的兩部份，$\tilde{\epsilon}$及$rincome$，皆無關。
 
 說明此時$E(Y|P)$中P的係數即為$\beta^*$.
+
+Ans:
+
+\begin{equation}\begin{aligned}
+E(Y|P)&=E(Y_{-p}+\beta*P|P)\\
+&=E(\tilde{\epsilon}+2+3rincome+\beta*P|P)\\
+&=E(\tilde{\epsilon})+2+3rincome+\beta*E(P)
+\end{aligned} \end{equation}
+因為$P$和$\tilde{\epsilon}$及rincome皆無關，立足點相同
+
 
 ## 2.2 立足點情境A.2
 
