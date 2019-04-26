@@ -8,8 +8,8 @@ output:
       collapsed: true
       smooth_scroll: false
 params:
-  name: ["黃塏雯","林庭宇"]
-  id: [710761122,710761117]
+  name: ["黃塏雯","林庭宇","饒雲韶"]
+  id: [710761122,710761117,810632102]
   group: "teamC"
   url: ""
 ---
@@ -62,6 +62,7 @@ summary(ans11)
 ```
 在其他條件不變下，平均每增加一年教育，生小孩數會減少0.0906個
 在其他條件不變下，平均每增加一歲，生小孩數會增加0.3324個; 平均年齡平方每增加一歲，生小孩數會減少0.00263個，可以推斷年紀增加小孩數會增加，但是年紀對於生小孩數的影響會隨著年齡的增加，增加幅度會變小
+
 
 ## 1.2
 The variable frsthalf is a dummy variable equal to one if the woman was born during the first six months of the year. Assuming that frsthalf is uncorrelated with the error term from 1.1, show that frsthalf is a reasonable IV candidate for educ. (Hint: you need to do a regression.)
@@ -126,7 +127,8 @@ Are frsthalf and catholic weak IVs?
 
 
 ```{r ans8}
-
+ans1_8<-lm(educ~age+age_square+frsthalf+catholic,data=fertil2)
+summary(ans1_8)
 ```
 
 # 2 複迴歸與工具變數
@@ -176,6 +178,26 @@ $$Y=Y_{-p}+\beta^* P$$
 即P與$Y_{-p}$有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與$\tilde{\epsilon}$相關部份）
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明不論使用$E(Y|P)$或$E(Y|P,rincome)$，其P之係數都不會是$\beta^*$
+
+ANS:
+\begin{equation}
+\begin{aligned}
+E(Y|P) &= E(\tilde \epsilon |P) + 2 + 3E(rincome|P) + \beta^* P \\ \\
+&= 0.5 + 2P + 2 + 3(0.5 + P) + \beta^* P \\ \\
+&= 4 + (5 + \beta^*)P
+\end{aligned}
+\end{equation}
+
+另外，
+
+\begin{equation}
+\begin{aligned}
+E(Y|P, rincome) &= E(\tilde \epsilon|P, rincome) + 2 + 3E(rincome|P, rincome) + \beta^* P \\ \\
+&= 0.5 + 2P + 2 + 3rincome + \beta^* P \\ \\
+&= 2.5 + 3rincome + (2 + \beta^*) P
+\end{aligned}
+\end{equation}
+
 
 ## 2.4 立足點情境A.3+效應情境B.1：TSLS
 
